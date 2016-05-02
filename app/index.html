@@ -8,9 +8,13 @@
 </head>
 <body>
   <h1>Backlot search demo</h1>
+  <div class="navigator">
+    <label>Search by Label<input type="radio" name="mode" value="SearchByLabel"></label>
+    <label>Search Name or Description<input type="radio" name="mode" value="SearchNameDesc"></label>
+  </div>
   <div class="main">
     <div class="add">
-      <h2>Search word (Labels)</h2>
+      <h2 class="current-mode">Search by Label</h2>
       <div>
         <input type="text" />
       </div>

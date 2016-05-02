@@ -38,6 +38,29 @@ app.get('/api/searchByLabel', (req, res) => {
   });
 });
 
+app.get('/api/searchNameDesc', (req, res) => {
+  const word = decodeURIComponent(req.query.word);
+  console.log('REQUEST: /api/searchNameDesc', word);
+
+  // Get the info associated with the video URL
+  api.get('/v2/assets', {where: `name='${word}'+OR+description='${word}'`}, {pagination: true})
+  .then((items) => {
+    // Do filtering
+    res.status(200).json(items.filter((item) => item['asset_type'] === 'video').map((item) => {
+      const obj = {};
+      Object.keys(item).forEach((key) => {
+        if (filter.indexOf(key) !== -1) {
+          obj[key] = item[key];
+        }
+      });
+      return obj;
+    }));
+  }).catch((err) => {
+    console.error(err);
+    res.sendStatus(404);
+  });
+});
+
 // Start server
 //if (require.main === module) {
   console.log('Server listening on port %s', port);
